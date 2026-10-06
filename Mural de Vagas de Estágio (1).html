@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstágioHUB - Mural de Vagas de Estágio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+        .toast-slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-brand-500/20">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-brand-700 to-indigo-700 bg-clip-text text-transparent">Estágio<span class="text-brand-500">HUB</span></span>
+                    <span class="hidden sm:inline-block text-xs bg-brand-50 text-brand-700 font-semibold px-2 py-0.5 rounded-full border border-brand-200 ml-2">Talentos do Futuro</span>
+                </div>
+            </div>
+
+            <nav class="flex items-center gap-3">
+                <a href="#vagas" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors px-3 py-2 rounded-lg hover:bg-slate-100 hidden md:block">
+                    Mural de Vagas
+                </a>
+                <a href="#cadastrar" class="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95">
+                    <i class="fa-solid fa-plus-circle text-xs"></i>
+                    <span>Anunciar Vaga</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 text-white py-16 lg:py-24">
+        <!-- Elementos decorativos de fundo -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 -right-24 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-brand-200 border border-white/15 mb-6 backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Oportunidades atualizadas diariamente
+            </span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight">
+                Conectando novos talentos às <span class="bg-gradient-to-r from-brand-300 via-indigo-200 to-purple-300 bg-clip-text text-transparent">melhores empresas</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+                Descubra vagas de estágio na sua área ou publique suas oportunidades gratuitamente para alcançar os melhores estudantes do mercado.
+            </p>
+
+            <!-- Estatísticas Rápidas -->
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-8 border-t border-white/10">
+                <div class="p-3">
+                    <p class="text-2xl sm:text-3xl font-bold text-white" id="stat-total">0</p>
+                    <p class="text-xs text-slate-400 mt-1">Vagas Ativas</p>
+                </div>
+                <div class="p-3">
+                    <p class="text-2xl sm:text-3xl font-bold text-emerald-400">100%</p>
+                    <p class="text-xs text-slate-400 mt-1">Gratuito</p>
+                </div>
+                <div class="p-3">
+                    <p class="text-2xl sm:text-3xl font-bold text-brand-300">Remoto/Híbrido</p>
+                    <p class="text-xs text-slate-400 mt-1">Diversos Formatos</p>
+                </div>
+                <div class="p-3">
+                    <p class="text-2xl sm:text-3xl font-bold text-purple-300">Conexão Direta</p>
+                    <p class="text-xs text-slate-400 mt-1">Sem Intermediários</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-grow">
+        
+        <!-- Mural de Vagas (Filtros + Lista) -->
+        <section id="vagas" class="scroll-mt-20">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                        <i class="fa-solid fa-briefcase text-brand-600"></i>
+                        Mural de Oportunidades
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">Explore as vagas disponíveis ou use os filtros para refinar sua busca.</p>
+                </div>
+
+                <a href="#cadastrar" class="self-start md:self-auto inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-4 py-2 rounded-lg transition-colors border border-brand-200">
+                    <i class="fa-solid fa-plus"></i> Publicar Nova Vaga
+                </a>
+            </div>
+
+            <!-- Barra de Filtro e Busca -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 mb-8 flex flex-col md:flex-row gap-4">
+                <div class="relative flex-grow">
+                    <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="input-search" placeholder="Buscar por cargo, palavra-chave ou empresa..." 
+                           class="w-full pl-10 pr-4 py-2.5 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                </div>
+
+                <div class="flex flex-wrap sm:flex-nowrap gap-3">
+                    <!-- Filtro de Área -->
+                    <select id="select-area" class="w-full sm:w-auto px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                        <option value="">Todas as Áreas</option>
+                        <option value="Tecnologia/TI">Tecnologia / TI</option>
+                        <option value="Design/UX">Design / UX</option>
+                        <option value="Marketing">Marketing & Comunicação</option>
+                        <option value="Administração">Administração / Gestão</option>
+                        <option value="Engenharia">Engenharia</option>
+                        <option value="Outros">Outras Áreas</option>
+                    </select>
+
+                    <!-- Filtro de Modelo de Trabalho -->
+                    <select id="select-tipo" class="w-full sm:w-auto px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                        <option value="">Todos os Modelos</option>
+                        <option value="Remoto">Remoto</option>
+                        <option value="Híbrido">Híbrido</option>
+                        <option value="Presencial">Presencial</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Contador de Resultados -->
+            <div class="flex justify-between items-center mb-4 text-xs font-medium text-slate-500 px-1">
+                <span id="results-count">Exibindo 0 vagas</span>
+                <button id="btn-reset-filters" class="hover:text-brand-600 transition-colors hidden">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> Limpar Filtros
+                </button>
+            </div>
+
+            <!-- Grid de Cards de Vaga -->
+            <div id="vagas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Vagas renderizadas via JavaScript -->
+            </div>
+
+            <!-- Mensagem de Nenhuma Vaga Encontrada -->
+            <div id="no-results" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300">
+                <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-700">Nenhuma vaga encontrada</h3>
+                <p class="text-sm text-slate-500 max-w-md mx-auto mt-1">Tente mudar os filtros de busca ou cadastre uma nova vaga no formulário abaixo.</p>
+            </div>
+        </section>
+
+        <!-- Seção do Formulário de Cadastro -->
+        <section id="cadastrar" class="mt-20 scroll-mt-20">
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-brand-600 to-indigo-600 p-6 sm:p-8 text-white">
+                        <span class="text-xs uppercase font-bold tracking-wider text-brand-200 block mb-1">Para Empresas & Recrutadores</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold">Cadastrar Nova Vaga de Estágio</h2>
+                        <p class="text-brand-100 text-sm mt-2">Preencha os campos abaixo para divulgar sua oportunidade instantaneamente no mural.</p>
+                    </div>
+
+                    <form id="form-vaga" class="p-6 sm:p-8 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Título da Vaga -->
+                            <div class="md:col-span-2">
+                                <label for="titulo" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Título da Vaga <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="titulo" required placeholder="Ex: Estagiário de Desenvolvimento Front-end" 
+                                       class="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+
+                            <!-- Empresa -->
+                            <div>
+                                <label for="empresa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Nome da Empresa <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="empresa" required placeholder="Ex: Tech Solutions Tech" 
+                                       class="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+
+                            <!-- Área da Vaga -->
+                            <div>
+                                <label for="area" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Área da Vaga <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="area" required class="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                                    <option value="" disabled selected>Selecione uma área...</option>
+                                    <option value="Tecnologia/TI">Tecnologia / TI</option>
+                                    <option value="Design/UX">Design / UX</option>
+                                    <option value="Marketing">Marketing & Comunicação</option>
+                                    <option value="Administração">Administração / Gestão</option>
+                                    <option value="Engenharia">Engenharia</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+
+                            <!-- Modelo de Trabalho -->
+                            <div>
+                                <label for="tipo" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Modelo de Trabalho <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="tipo" required class="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                                    <option value="" disabled selected>Selecione o modelo...</option>
+                                    <option value="Presencial">Presencial</option>
+                                    <option value="Híbrido">Híbrido</option>
+                                    <option value="Remoto">Remoto</option>
+                                </select>
+                            </div>
+
+                            <!-- Valor Bolsa / Benefícios -->
+                            <div>
+                                <label for="bolsa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Bolsa Auxílio & Benefícios <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="bolsa" required placeholder="Ex: R$ 1.500,00 + Vale Transporte" 
+                                       class="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+
+                            <!-- Link de Inscrição -->
+                            <div class="md:col-span-2">
+                                <label for="link" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Link de Inscrição / E-mail de Contato <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="link" required placeholder="https://exemplo.com/carreiras ou contato@empresa.com" 
+                                       class="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+
+                            <!-- Descrição Adicional (Opcional) -->
+                            <div class="md:col-span-2">
+                                <label for="descricao" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Resumo da Vaga / Requisitos <span class="text-slate-400 font-normal">(Opcional)</span>
+                                </label>
+                                <textarea id="descricao" rows="3" placeholder="Descreva brevemente as responsabilidades e requisitos básicos..." 
+                                          class="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all resize-none"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex justify-end">
+                            <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-brand-500/25 transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Publicar Vaga Instantaneamente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast de Notificação (Sucesso) -->
+    <div id="toast-success" class="fixed bottom-5 right-5 z-50 hidden">
+        <div class="toast-slide-in flex items-center gap-3 bg-emerald-900 text-white px-5 py-4 rounded-xl shadow-2xl border border-emerald-700">
+            <div class="w-8 h-8 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-300">
+                <i class="fa-solid fa-check text-lg"></i>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm">Sucesso!</h4>
+                <p class="text-xs text-emerald-200">Sua vaga foi cadastrada e já está no mural.</p>
+            </div>
+            <button onclick="closeToast()" class="ml-4 text-emerald-300 hover:text-white transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Visualização de Detalhes da Vaga -->
+    <div id="modal-vaga" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative transform transition-all">
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content">
+                <!-- Conteúdo do Modal preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-8 mt-16 text-xs text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 EstágioHUB. Plataforma demonstrativa para conexão de estudantes e oportunidades.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dados iniciais de vagas pré-carregadas para demonstração
+        const initialJobs = [
+            {
+                id: '1',
+                titulo: 'Estágio em Desenvolvimento Web React',
+                empresa: 'Inova Tech Lab',
+                area: 'Tecnologia/TI',
+                tipo: 'Remoto',
+                bolsa: 'R$ 1.800,00 + Vale Refeição',
+                link: 'https://exemplo.com/vaga-react',
+                descricao: 'Procuramos estudantes apaixonados por JavaScript, HTML/CSS e frameworks modernos. Oportunidade de aprendizado contínuo com time sênior.',
+                data: new Date().toLocaleDateString('pt-BR')
+            },
+            {
+                id: '2',
+                titulo: 'Estagiário de UX/UI Design',
+                empresa: 'Studio Criativo',
+                area: 'Design/UX',
+                tipo: 'Híbrido',
+                bolsa: 'R$ 1.500,00 + Auxílio Home Office',
+                link: 'mailto:carreiras@studiocriativo.com',
+                descricao: 'Venha criar interfaces incríveis para aplicativos móveis e plataformas web. Requisito básico: Conhecimento em Figma.',
+                data: new Date().toLocaleDateString('pt-BR')
+            },
+            {
+                id: '3',
+                titulo: 'Estágio em Marketing Digital',
+                empresa: 'Growth Agência',
+                area: 'Marketing',
+                tipo: 'Presencial',
+                bolsa: 'R$ 1.400,00 + VT',
+                link: 'https://exemplo.com/vaga-marketing',
+                descricao: 'Criação de conteúdo para redes sociais, análise de métricas e suporte na elaboração de campanhas digitais.',
+                data: new Date().toLocaleDateString('pt-BR')
+            }
+        ];
+
+        // Estado da aplicação
+        let jobs = [];
+
+        // Inicialização
+        window.addEventListener('DOMContentLoaded', () => {
+            loadJobs();
+            setupEventListeners();
+            renderJobs();
+        });
+
+        // Carregar vagas (LocalStorage ou Iniciais)
+        function loadJobs() {
+            const savedJobs = localStorage.getItem('estagiohub_vagas');
+            if (savedJobs) {
+                try {
+                    jobs = JSON.parse(savedJobs);
+                } catch (e) {
+                    jobs = [...initialJobs];
+                }
+            } else {
+                jobs = [...initialJobs];
+                saveJobsToStorage();
+            }
+        }
+
+        function saveJobsToStorage() {
+            localStorage.setItem('estagiohub_vagas', JSON.stringify(jobs));
+        }
+
+        // Configuração de Event Listeners
+        function setupEventListeners() {
+            // Formulário de Cadastro
+            document.getElementById('form-vaga').addEventListener('submit', handleAddJob);
+
+            // Filtros de Busca
+            document.getElementById('input-search').addEventListener('input', renderJobs);
+            document.getElementById('select-area').addEventListener('change', renderJobs);
+            document.getElementById('select-tipo').addEventListener('change', renderJobs);
+            document.getElementById('btn-reset-filters').addEventListener('click', resetFilters);
+        }
+
+        // Manipular adição de nova vaga
+        function handleAddJob(e) {
+            e.preventDefault();
+
+            const newJob = {
+                id: Date.now().toString(),
+                titulo: document.getElementById('titulo').value.trim(),
+                empresa: document.getElementById('empresa').value.trim(),
+                area: document.getElementById('area').value,
+                tipo: document.getElementById('tipo').value,
+                bolsa: document.getElementById('bolsa').value.trim(),
+                link: document.getElementById('link').value.trim(),
+                descricao: document.getElementById('descricao').value.trim() || 'Sem descrição adicional.',
+                data: new Date().toLocaleDateString('pt-BR')
+            };
+
+            // Adiciona no topo da lista
+            jobs.unshift(newJob);
+            saveJobsToStorage();
+
+            // Reseta formulário
+            document.getElementById('form-vaga').reset();
+
+            // Atualiza o mural
+            renderJobs();
+
+            // Exibe mensagem de feedback
+            showToast();
+
+            // Rola até o mural para ver a nova vaga
+            document.getElementById('vagas').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Renderizar a lista de vagas no DOM
+        function renderJobs() {
+            const container = document.getElementById('vagas-container');
+            const noResults = document.getElementById('no-results');
+            const resultsCount = document.getElementById('results-count');
+            const statTotal = document.getElementById('stat-total');
+            const btnReset = document.getElementById('btn-reset-filters');
+
+            // Pegar valores dos filtros
+            const searchValue = document.getElementById('input-search').value.toLowerCase();
+            const areaValue = document.getElementById('select-area').value;
+            const tipoValue = document.getElementById('select-tipo').value;
+
+            // Mostrar/Ocultar botão de reset
+            if (searchValue || areaValue || tipoValue) {
+                btnReset.classList.remove('hidden');
+            } else {
+                btnReset.classList.add('hidden');
+            }
+
+            // Filtragem
+            const filteredJobs = jobs.filter(job => {
+                const matchesSearch = job.titulo.toLowerCase().includes(searchValue) ||
+                                     job.empresa.toLowerCase().includes(searchValue) ||
+                                     job.descricao.toLowerCase().includes(searchValue);
+                const matchesArea = !areaValue || job.area === areaValue;
+                const matchesTipo = !tipoValue || job.tipo === tipoValue;
+
+                return matchesSearch && matchesArea && matchesTipo;
+            });
+
+            // Atualizar contadores
+            statTotal.innerText = jobs.length;
+            resultsCount.innerText = `Exibindo ${filteredJobs.length} de ${jobs.length} vaga(s)`;
+
+            if (filteredJobs.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            // Renderizar Cards
+            container.innerHTML = filteredJobs.map(job => {
+                // Cores por Tipo de Trabalho
+                let tipoBadgeClass = 'bg-slate-100 text-slate-700';
+                if (job.tipo === 'Remoto') tipoBadgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                if (job.tipo === 'Híbrido') tipoBadgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
+                if (job.tipo === 'Presencial') tipoBadgeClass = 'bg-blue-50 text-blue-700 border-blue-200';
+
+                // Formatador de link
+                const isEmail = job.link.includes('@') && !job.link.startsWith('http');
+                const hrefLink = isEmail ? `mailto:${job.link}` : (job.link.startsWith('http') ? job.link : `https://${job.link}`);
+
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 hover:border-brand-300 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                        <div class="p-6">
+                            <div class="flex items-start justify-between gap-3 mb-3">
+                                <span class="text-xs font-semibold px-2.5 py-1 rounded-full border ${tipoBadgeClass}">
+                                    <i class="fa-solid ${job.tipo === 'Remoto' ? 'fa-laptop-house' : job.tipo === 'Híbrido' ? 'fa-building-user' : 'fa-building'} mr-1 text-[10px]"></i>
+                                    ${job.tipo}
+                                </span>
+                                <span class="text-[11px] text-slate-400 font-medium">
+                                    <i class="fa-regular fa-clock mr-1"></i>${job.data}
+                                </span>
+                            </div>
+
+                            <h3 class="font-bold text-lg text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2">
+                                ${escapeHtml(job.titulo)}
+                            </h3>
+
+                            <p class="text-sm font-semibold text-slate-600 mt-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-city text-slate-400 text-xs"></i>
+                                ${escapeHtml(job.empresa)}
+                            </p>
+
+                            <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
+                                <div class="flex items-center text-xs text-slate-500 gap-2">
+                                    <i class="fa-solid fa-tag text-slate-400 w-4 text-center"></i>
+                                    <span class="bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-medium">${escapeHtml(job.area)}</span>
+                                </div>
+                                <div class="flex items-center text-xs text-slate-700 font-semibold gap-2">
+                                    <i class="fa-solid fa-sack-dollar text-emerald-600 w-4 text-center"></i>
+                                    <span>${escapeHtml(job.bolsa)}</span>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-500 mt-3 line-clamp-2 leading-relaxed">
+                                ${escapeHtml(job.descricao)}
+                            </p>
+                        </div>
+
+                        <div class="px-6 py-4 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between gap-2">
+                            <button onclick="openModal('${job.id}')" class="text-xs font-semibold text-slate-600 hover:text-brand-600 transition-colors">
+                                Detalhes
+                            </button>
+                            <a href="${hrefLink}" target="_blank" rel="noopener noreferrer" 
+                               class="inline-flex items-center gap-1.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-sm">
+                                <span>Candidatar-se</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Limpar filtros
+        function resetFilters() {
+            document.getElementById('input-search').value = '';
+            document.getElementById('select-area').value = '';
+            document.getElementById('select-tipo').value = '';
+            renderJobs();
+        }
+
+        // Abrir Modal de Detalhes
+        function openModal(id) {
+            const job = jobs.find(j => j.id === id);
+            if (!job) return;
+
+            const isEmail = job.link.includes('@') && !job.link.startsWith('http');
+            const hrefLink = isEmail ? `mailto:${job.link}` : (job.link.startsWith('http') ? job.link : `https://${job.link}`);
+
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-600">${escapeHtml(job.area)}</span>
+                <h3 class="text-2xl font-bold text-slate-900 mt-1">${escapeHtml(job.titulo)}</h3>
+                <p class="text-sm font-semibold text-slate-600 mt-1">${escapeHtml(job.empresa)} • <span class="text-brand-600">${job.tipo}</span></p>
+
+                <div class="my-6 p-4 bg-slate-50 rounded-xl space-y-2 border border-slate-200/60">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-slate-500">Bolsa / Benefícios:</span>
+                        <span class="font-bold text-slate-800">${escapeHtml(job.bolsa)}</span>
+                    </div>
+                    <div class="flex justify-between text-xs">
+                        <span class="text-slate-500">Data de Publicação:</span>
+                        <span class="font-bold text-slate-800">${job.data}</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Descrição da Oportunidade</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">${escapeHtml(job.descricao)}</p>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <a href="${hrefLink}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm text-center py-3 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2">
+                        <span>Ir para Inscrição</span>
+                        <i class="fa-solid fa-external-link text-xs"></i>
+                    </a>
+                </div>
+            `;
+
+            document.getElementById('modal-vaga').classList.remove('hidden');
+        }
+
+        // Fechar Modal
+        function closeModal() {
+            document.getElementById('modal-vaga').classList.add('hidden');
+        }
+
+        // Exibir Notificação Toast
+        function showToast() {
+            const toast = document.getElementById('toast-success');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                closeToast();
+            }, 4000);
+        }
+
+        function closeToast() {
+            document.getElementById('toast-success').classList.add('hidden');
+        }
+
+        // Função utilitária para evitar XSS
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
